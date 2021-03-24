@@ -31,7 +31,7 @@ awk '{print $3" "$4}' $1 > $1.sim
 grep -wf $2 $1 > $2.SynNet
 
 # Prune genes not from the target group in the sub-network because of gene fusion/misannotation
-awk '{print $3" "$4}' $2.SynNet > $2.SynNet.sim # generate the simplified sub-network data
+awk '{print $3" "$4}' $2.SynNet|sort|uniq > $2.SynNet.sim # generate the simplified sub-network data
 cat $2.SynNet.sim|awk '{print $1"\n"$2}'|sort|uniq > $2.SynNet.genelist # duplicate-removed gene list for pruning
 grep -wvf $2 $2.SynNet.genelist > $2.prune.list # compare target genelist and subnetwork genelist to create prune list
 grep -wvf $2.prune.list $2.SynNet.sim > $2.SynNet.sim.pruned # extract the sub-network excluding the non-target gene
